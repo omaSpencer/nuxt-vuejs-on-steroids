@@ -1,12 +1,14 @@
 <template>
   <div class="single-post-page">
     <section class="post">
-      <h1 class="post-title">Title</h1>
+      <h1 class="post-title">{{ post.title }}</h1>
       <div class="post-details">
-        <div class="post-detail">last updated:</div>
-        <div class="post-detail">written by:</div>
+        <div class="post-detail">
+          last updated: {{ new Date(post.updatedAt).toLocaleTimeString() }}
+        </div>
+        <div class="post-detail">written by: Spencer</div>
       </div>
-      <p class="post-content">content</p>
+      <p class="post-content">{{ post.description }}</p>
     </section>
     <section class="post-feedback">
       <p>
@@ -18,6 +20,16 @@
     </section>
   </div>
 </template>
+
+<script>
+export default {
+  async asyncData({ params, $http }) {
+    const post = await $http.$get(`https://api.nuxtjs.dev/posts/${params.id}`)
+
+    return { post }
+  },
+}
+</script>
 
 <style scoped>
 .single-post-page {
