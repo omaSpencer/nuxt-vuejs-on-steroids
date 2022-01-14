@@ -3,7 +3,7 @@
     <section class="intro">
       <h1>Get the latest tech news!</h1>
     </section>
-    <PostList :posts="posts" v-if="!!posts" />
+    <PostList :posts="posts" />
   </div>
 </template>
 
@@ -14,17 +14,22 @@ export default {
   components: {
     PostList,
   },
-  async asyncData({ $http }) {
-    const res = await $http.$get('https://api.nuxtjs.dev/posts')
-    const posts = await res.map(({ id, title, description, image }) => ({
-      id,
-      title,
-      lead: description,
-      thumbnail: image,
-    }))
-
-    return { posts }
-  }
+  asyncData(context, callback) {
+    console.log(context)
+    setTimeout(() => {
+      callback(null, {
+        posts: [
+          {
+            id: '1',
+            title: 'First',
+            lead: 'Lead',
+            thumbnail:
+              'https://images.unsplash.com/photo-1642006255340-61a8d8eb7c95?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+          },
+        ],
+      })
+    }, 1500)
+  },
 }
 </script>
 
